@@ -10,6 +10,63 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
+    <header class="hero">
+        <h1 class="app-title"> WEATHER DASHBOARD</h1>
+    </header>
+   <main class="flex-row justify-space-between">
+        <div class="col-12 col-md-4">
+          <div class="card">
+            <h3 class="card-header text-uppercase">Search for a City</h3>
+            <form id="city-form" class="card-body">
+              <input type="text" name="cityname" id="cityname" autofocus="true" class="form-input" placeholder="San Francisco">
+              <button type="submit" class="btn">Search</button>
+            </form>
+            </div>
+            <div class="list-item" id="userCityInput">User Input goes Here</div>
+            </div>
+        <div class="col-12 col-md-8">
+            <div class="search-results">
+          <h2 class="city-name"> Results Search Goes Here<span id="date"></span></h2>
+          <div class="row">Temperature:</div>
+          <div class="row">Wind:</div>
+          <div class="row">Humidity:</div>
+          <div class="row">UV Index:</div>
+          </div><br>
+          <div><h2>5-Day Forecast</h2></div>
+          <div class="flex-row justify-space-between">
+          <div class="col-2 days-weather" id="weather-info">Monday
+            <div class="row">Temperature:</div>
+            <div class="row">Wind:</div>
+            <div class="row">Humidity:</div>
+            <div class="row">UV Index:</div>
+        </div>
+          <div class="col-2 days-weather" id="weather-info">Tuesday
+            <div class="row">Temperature:</div>
+            <div class="row">Wind:</div>
+            <div class="row">Humidity:</div>
+            <div class="row">UV Index:</div>
+        </div>
+        <div class="col-2 days-weather" id="weather-info">Wednesday
+            <div class="row">Temperature:</div>
+            <div class="row">Wind:</div>
+            <div class="row">Humidity:</div>
+            <div class="row">UV Index:</div>
+        </div>
+        <div class="col-2 days-weather" id="weather-info">Thursday
+            <div class="row">Temperature:</div>
+            <div class="row">Wind:</div>
+            <div class="row">Humidity:</div>
+            <div class="row">UV Index:</div>
+        </div>
+        <div class="col-2 days-weather" id="weather-info">Friday
+            <div class="row">Temperature:</div>
+            <div class="row">Wind:</div>
+            <div class="row">Humidity:</div>
+            <div class="row">UV Index:</div>
+        </div>
+    </div>
+    </div>
+   </main>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
