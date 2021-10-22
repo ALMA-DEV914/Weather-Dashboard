@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
   <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Weather Dashboard</title>
 </head>
 <body>
     <header class="hero">
-        <h1 class="app-title"> WEATHER DASHBOARD</h1>
+        <h1 class="app-title"> WEATHER DASHBOARD<br>
+       <span id="date"></span></h1>
     </header>
    <main class="flex-row justify-space-between">
         <div class="col-12 col-md-4">
@@ -19,54 +21,27 @@
             <h3 class="card-header text-uppercase">Search for a City</h3>
             <form id="city-form" class="card-body">
               <input type="text" name="cityname" id="cityname" autofocus="true" class="form-input" placeholder="San Francisco">
-              <button type="submit" class="btn">Search</button>
+              <button type="submit" class="btn" id="input">Search</button>
             </form>
             </div>
-            <div class="list-item" id="userCityInput">User Input goes Here</div>
+            <div class="list-group" id="city-container">
+            </div>
             </div>
         <div class="col-12 col-md-8">
-            <div class="search-results">
-          <h2 class="city-name"> Results Search Goes Here<span id="date"></span></h2>
-          <div class="row">Temperature:</div>
-          <div class="row">Wind:</div>
-          <div class="row">Humidity:</div>
-          <div class="row">UV Index:</div>
-          </div><br>
-          <div><h2>5-Day Forecast</h2></div>
+        <div class="search-results" id="search-results"></div>
+         <div id="forecast"></div>
           <div class="flex-row justify-space-between">
-          <div class="col-2 days-weather" id="weather-info">Monday
-            <div class="row">Temperature:</div>
-            <div class="row">Wind:</div>
-            <div class="row">Humidity:</div>
-            <div class="row">UV Index:</div>
+            <div class="row col-2 days-weather" id="1day"></div>
+            <div class="row col-2 days-weather" id="2day"></div>
+            <div class="row col-2 days-weather" id="3day"></div>
+            <div class="row col-2 days-weather" id="4day"></div>
+            <div class="row col-2 days-weather" id="5day"></div>
+          </div>
         </div>
-          <div class="col-2 days-weather" id="weather-info">Tuesday
-            <div class="row">Temperature:</div>
-            <div class="row">Wind:</div>
-            <div class="row">Humidity:</div>
-            <div class="row">UV Index:</div>
-        </div>
-        <div class="col-2 days-weather" id="weather-info">Wednesday
-            <div class="row">Temperature:</div>
-            <div class="row">Wind:</div>
-            <div class="row">Humidity:</div>
-            <div class="row">UV Index:</div>
-        </div>
-        <div class="col-2 days-weather" id="weather-info">Thursday
-            <div class="row">Temperature:</div>
-            <div class="row">Wind:</div>
-            <div class="row">Humidity:</div>
-            <div class="row">UV Index:</div>
-        </div>
-        <div class="col-2 days-weather" id="weather-info">Friday
-            <div class="row">Temperature:</div>
-            <div class="row">Wind:</div>
-            <div class="row">Humidity:</div>
-            <div class="row">UV Index:</div>
-        </div>
-    </div>
     </div>
    </main>
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
