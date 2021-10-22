@@ -3,8 +3,9 @@ var cityFormEl = document.querySelector("#city-form");
 var cityContainerEl = document.querySelector("#city-container");
 var inputEl = document.querySelector("#input");
 var resultsContainer = document.querySelector("#results-container");
-cityContainerEl.textContent = [];
-//var searchCityList = cityListSearch;
+cityContainerEl.textContent= [];
+
+var city = cityInputEl.value.trim();
 // Add timezone plugins to day.js
 /*dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);*/
@@ -31,13 +32,12 @@ $("#date").text(date);
 var formSubmitHandler = function(event){
     event.preventDefault();
     //get value from input
-    var cityname = cityInputEl.value.trim();
-
+    
     if(cityname){
         getUserInput(cityname);
-
         //clear old value from input
-        resultsContainer.textContent = "";
+
+        resultsContainer.value = "";
         cityContainerEl.textContent = cityname;
         cityInputEl.value = "";
     } else {
@@ -45,8 +45,8 @@ var formSubmitHandler = function(event){
     }
 };
 
-var getForecast = function(){
-    fetch("https://api.openweathermap.org/data/2.5/forecast?q=Reno&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
+var getForecast = function(event){
+    fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
     .then(function(response){
     response.json().then(function(forecast){
        console.log(forecast);
@@ -56,7 +56,7 @@ var getForecast = function(){
 
 inputEl.addEventListener("click", function(event){
       event.preventDefault();
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=Reno,us&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
+    fetch("https://api.openweathermap.org/data/2.5/weather?q="+ cityInputEl.value +"&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
       .then(function(response){
      
     response.json().then(function(data){
@@ -88,22 +88,9 @@ inputEl.addEventListener("click", function(event){
       d2El.textContent = moment().add(3,"days");
       d3El.textContent = moment().add(4, "days");
       d4El.textContent = moment().add(5,"days");
-      
       h2El.textContent = "FORECAST FOR 5 DAYS";
-      uvIndexEl.textContent = document.createElement('p');
-      uvIndexEl.textContent = "Uv Index:"
-      windEl.textContent = "Wind:" + data.wind.speed;
-      tempEl.textContent = "Temperature:" + " " + data.main.temp; 
-      humidEl.textContent = "Humidity:" + " "+ data.main.humidity; 
-      cityNameEl.textContent = city + " " + '(' + date
-      + ')';
       h2El.setAttribute("style", "padding:20px");
-      document.getElementById('search-results').appendChild(divEl);
-      divEl.appendChild(cityNameEl);
-      divEl.appendChild(tempEl);
-      divEl.appendChild(windEl);
-      divEl.appendChild(humidEl);
-      divEl.appendChild(uvIndexEl);
+      
       document.getElementById('forecast').appendChild(h2El);
       document.getElementById('1day').appendChild(dEl);
       document.getElementById('2day').appendChild(d1El);
@@ -111,11 +98,25 @@ inputEl.addEventListener("click", function(event){
       document.getElementById('4day').appendChild(d3El);
       document.getElementById('5day').appendChild(d4El);
       
+      uvIndexEl.textContent = document.createElement('p');
+      uvIndexEl.textContent = "Uv Index:"
+      windEl.textContent = "Wind:" + data.wind.speed;
+      tempEl.textContent = "Temperature:" + " " + data.main.temp; 
+      humidEl.textContent = "Humidity:" + " "+ data.main.humidity; 
+      cityNameEl.textContent = city + " " + '(' + date
+      + ')';
 
-      console.log(city);
+      divEl.appendChild(cityNameEl);
+      document.getElementById('search-results').appendChild(divEl);
+      divEl.appendChild(cityNameEl);
+      divEl.appendChild(tempEl);
+      divEl.appendChild(windEl);
+      divEl.appendChild(humidEl);
+      divEl.appendChild(uvIndexEl);
       
-    localStorage.setItem("searchCityList", city);
-    localStorage.getItem("searchCityList");
+    localStorage.setItem("list-item", city);
+    var cityList = localStorage.getItem("list-item");
+    localStorage.removeItem("result-container")
       
 });
 });
