@@ -3,7 +3,7 @@ var cityFormEl = document.querySelector("#city-form");
 var cityContainerEl = document.querySelector("#city-container");
 var inputEl = document.querySelector("#input");
 var resultsContainer = document.querySelector("#results-container");
-cityContainerEl.textContent= [];
+cityContainerEl.textContent= city;
 
 var city = cityInputEl.value.trim();
 // Add timezone plugins to day.js
@@ -33,20 +33,19 @@ var formSubmitHandler = function(event){
     event.preventDefault();
     //get value from input
     
-    if(cityname){
-        getUserInput(cityname);
+    if(city){
+        cityInputEl(city);
         //clear old value from input
-
         resultsContainer.value = "";
-        cityContainerEl.textContent = cityname;
+        cityContainerEl.textContent = city;
         cityInputEl.value = "";
     } else {
         alert("please enter a city");
     }
 };
 
-var getForecast = function(event){
-    fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
+var getForecast = function(){
+    fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
     .then(function(response){
     response.json().then(function(forecast){
        console.log(forecast);
@@ -56,14 +55,14 @@ var getForecast = function(event){
 
 inputEl.addEventListener("click", function(event){
       event.preventDefault();
-    fetch("https://api.openweathermap.org/data/2.5/weather?q="+ cityInputEl.value +"&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
+    fetch("https://api.openweathermap.org/data/2.5/weather?q="+ cityInputEl.value + "&icon&units=imperial&uvi?&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
       .then(function(response){
      
     response.json().then(function(data){
    
      console.log(data);
-        
-       var date = moment().format("L");
+     
+      var date = moment().format("LLLL");
       //var day1 = moment().add(1, 'days').calendar();    
       var city = cityInputEl.value.trim();
       var liEl = document.createElement("a")
@@ -76,31 +75,9 @@ inputEl.addEventListener("click", function(event){
       var humidEl = document.createElement('p');
       var windEl = document.createElement('p');
       var uvIndexEl = document.createElement('p');
-      var h2El = document.createElement('h2');
-      var dEl = document.createElement('h3');
-      var d1El = document.createElement('h3');
-      var d2El = document.createElement('h3');
-      var d3El = document.createElement('h3');
-      var d4El = document.createElement('h3');
-      
-      dEl.textContent = moment().add(1,"days");
-      d1El.textContent = moment().add(2, "days");
-      d2El.textContent = moment().add(3,"days");
-      d3El.textContent = moment().add(4, "days");
-      d4El.textContent = moment().add(5,"days");
-      h2El.textContent = "FORECAST FOR 5 DAYS";
-      h2El.setAttribute("style", "padding:20px");
-      
-      document.getElementById('forecast').appendChild(h2El);
-      document.getElementById('1day').appendChild(dEl);
-      document.getElementById('2day').appendChild(d1El);
-      document.getElementById('3day').appendChild(d2El);
-      document.getElementById('4day').appendChild(d3El);
-      document.getElementById('5day').appendChild(d4El);
-      
       uvIndexEl.textContent = document.createElement('p');
-      uvIndexEl.textContent = "Uv Index:"
-      windEl.textContent = "Wind:" + data.wind.speed;
+      uvIndexEl.textContent = "Uv Index: " + "0";
+      windEl.textContent = "Wind: " + data.wind.speed;
       tempEl.textContent = "Temperature:" + " " + data.main.temp; 
       humidEl.textContent = "Humidity:" + " "+ data.main.humidity; 
       cityNameEl.textContent = city + " " + '(' + date
@@ -116,11 +93,130 @@ inputEl.addEventListener("click", function(event){
       
     localStorage.setItem("list-item", city);
     var cityList = localStorage.getItem("list-item");
-    localStorage.removeItem("result-container")
+     //cityContainerEl.textContent = cityList;
+    });
+}); 
+/*fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
+        .then(function(response){
+        response.json().then(function(forecast){
+           console.log(forecast);
+    
+     //const strDate = d.toLocaleString();
+     var timestamp = Date.now(), // returns milliseconds since epoch time
+      normalisedTime = new Date(timestamp);
+    
+      var h2El = document.createElement('h2');
+      var dEl = document.createElement('h3');
+      var iconEl = document.createElement("p");
+      var tEl = document.createElement('p');
+      var hEl = document.createElement('p');
+      var wEl = document.createElement('p')
+      var d1El = document.createElement('h3');
+      var icon1El = document.createElement("p");
+      var t1El = document.createElement('p');
+      var h1El = document.createElement('p');
+      var w1El = document.createElement('p')
+      var d2El = document.createElement('h3');
+      var t2El = document.createElement('p');
+      var hu2El = document.createElement('p');
+      var w2El = document.createElement('p')
+      var d3El = document.createElement('h3');
+      var t3El = document.createElement('p');
+      var h3El = document.createElement('p');
+      var w3El = document.createElement('p')
+      var d4El = document.createElement('h3');
+      var t4El = document.createElement('p');
+      var h4El = document.createElement('p');
+      var w4El = document.createElement('p')
+      dEl.textContent = forecast.dt=moment().add(1, 'days');
+      iconEl.textContent = forecast.list[0].weather[0].description;
+      tEl.textContent = "Temp: " + forecast.list[0].main.temp;
+      hEl.textContent = "Humidity: " + forecast.list[0].main.humidity;
+      wEl.textContent = "Wind: " + forecast.list[0].wind.speed;
+      d1El.textContent =forecast.dt=moment().add(2, "days");
+      icon1El.textContent = forecast.list[0].weather[0].description;
+      t1El.textContent = "Temp: " + forecast.list[0].main.temp;
+      h1El.textContent = "Humidity: " + forecast.list[0].main.humidity;
+      w1El.textContent = "Wind: " + forecast.list[0].wind.speed;
+      d2El.textContent = forecast.dt=moment().add(3,"days");
+      t2El.textContent = "Temp: " + forecast.list[0].main.temp;
+      hu2El.textContent = "Humidity: " + forecast.list[0].main.humidity;
+      w2El.textContent = "Wind: " + forecast.list[0].wind.speed;
+      d3El.textContent = moment().add(4, "days");
+      t3El.textContent = "Temp: " + forecast.list[0].main.temp;
+      h3El.textContent = "Humidity: " + forecast.list[0].main.humidity;
+      w3El.textContent = "Wind: " + forecast.list[0].wind.speed;
+      d4El.textContent = moment().add(5,"days");
+      t4El.textContent = "Temp: " + forecast.list[0].main.temp;
+      h4El.textContent = "Humidity: " + forecast.list[0].main.humidity;
+      w4El.textContent = "Wind: " + forecast.list[0].wind.speed;
+
+      h2El.textContent = "FORECAST FOR 5 DAYS";
+      h2El.setAttribute("style", "padding:20px");
       
+      document.getElementById('forecast').appendChild(h2El);
+      document.getElementById('1day').appendChild(dEl);
+      dEl.appendChild(iconEl);
+      d1El.appendChild(icon1El);
+      dEl.appendChild(tEl);
+      dEl.appendChild(hEl);
+      dEl.appendChild(wEl);
+      d1El.appendChild(t1El);
+      d1El.appendChild(h1El);
+      d1El.appendChild(w1El);
+      d2El.appendChild(t2El);
+      d2El.appendChild(hu2El);
+      d2El.appendChild(w2El);
+      d3El.appendChild(t3El);
+      d3El.appendChild(h3El);
+      d3El.appendChild(w3El);
+      d4El.appendChild(t4El);
+      d4El.appendChild(h4El);
+      d4El.appendChild(w4El);
+      document.getElementById('2day').appendChild(d1El);
+      document.getElementById('3day').appendChild(d2El);
+      document.getElementById('4day').appendChild(d3El);
+      document.getElementById('5day').appendChild(d4El);
+
+*/
+    var city = cityInputEl.value.trim();
+    var key = '9744d0c7ce6c0249a3e788815a2c2ef4';
+    var url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
+   
+
+$.ajax({
+  url: url, //API Call
+  dataType: "json",
+  type: "GET",
+  data: {
+    q: city,
+    appid: key,
+    units: "metric",
+    cnt: "6"
+  },
+  success: function(data) {
+    console.log('Received data:', data) // For testing
+    var weatherForecast = "";
+    weatherForecast += "<h2>" + 'FORECAST FOR 5 DAYS' + "( " + city +  " )" + "</h2>"; // City (displays once)
+    $.each(data.list, function(date, val) {
+    weatherForecast += "<p>" // Opening paragraph tag
+    weatherForecast += "<b>Day " + date + "</b>:" + "</br>"// Day
+    weatherForecast += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>" + "</br>"// Icon
+    weatherForecast += "<span> | " + val.weather[0].description + "</span>" + "</br>"; // Description
+    weatherForecast += " Temp: " + val.main.temp + "</br>" // Temperature
+    weatherForecast += "Humidity: " + val.main.humidity + "</br>" // Humidity
+    weatherForecast += "Wind: " + val.wind.speed;
+    weatherForecast += "</p>" // Closing paragraph tag
+    });
+    $("#showWeatherForecast").html(weatherForecast);
+  }
 });
-});
+           
 });
 
 
-cityFormEl.addEventListener("submit", formSubmitHandler);
+
+
+
+
+//cityFormEl.addEventListener("submit", formSubmitHandler);
