@@ -1,11 +1,11 @@
 var cityInputEl = document.querySelector("#cityname");
 var cityFormEl = document.querySelector("#city-form");
 var cityContainerEl = document.querySelector("#city-container");
-var inputEl = document.querySelector("#input");
+var inputButtonEl = document.querySelector("#input");
 var resultsContainer = document.querySelector("#results-container");
-cityContainerEl.textContent= city;
-
-var city = cityInputEl.value.trim();
+searchCityEl = document.getElementById("searchcity");
+var cityList = "cities";
+//var city = cityInputEl.value.trim();
 // Add timezone plugins to day.js
 /*dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);*/
@@ -14,7 +14,6 @@ $("#date").text(date);
 
  /*fetch("https://api.openweathermap.org/data/2.5/weather?q=Reno,us&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
  .then(function(response){
-
     response.json().then(function(data){
     console.log(data);
      var divEl = document.createElement("div");
@@ -29,15 +28,15 @@ $("#date").text(date);
     });
 });
 */
-var formSubmitHandler = function(event){
+/*var formSubmitHandler = function(event){
     event.preventDefault();
     //get value from input
     
     if(city){
         cityInputEl(city);
         //clear old value from input
-        resultsContainer.value = "";
-        cityContainerEl.textContent = city;
+        resultsContainer.value = city;
+        cityContainerEl.textContent = cityname;
         cityInputEl.value = "";
     } else {
         alert("please enter a city");
@@ -52,8 +51,8 @@ var getForecast = function(){
     });
 });
 };
-
-inputEl.addEventListener("click", function(event){
+*/
+inputButtonEl.addEventListener("click", function(event){
       event.preventDefault();
     fetch("https://api.openweathermap.org/data/2.5/weather?q="+ cityInputEl.value + "&icon&units=imperial&uvi?&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
       .then(function(response){
@@ -64,38 +63,40 @@ inputEl.addEventListener("click", function(event){
      
       var date = moment().format("LLLL");
       //var day1 = moment().add(1, 'days').calendar();    
-      var city = cityInputEl.value.trim();
+      //var city = cityInputEl.value.trim();
       var liEl = document.createElement("a")
       liEl.classList = 'list-item flex-row justify-space-between align-center ';
       liEl.textContent = city;
       cityContainerEl.appendChild(liEl);
+
       var divEl = document.createElement("div");
       var cityNameEl = document.createElement('h2');
+      var desEl = document.createElement('p');
       var tempEl = document.createElement('p');
       var humidEl = document.createElement('p');
       var windEl = document.createElement('p');
       var uvIndexEl = document.createElement('p');
       uvIndexEl.textContent = document.createElement('p');
+      desEl.textContent = "Description: " + data.weather[0].description;
       uvIndexEl.textContent = "Uv Index: " + "0";
       windEl.textContent = "Wind: " + data.wind.speed;
       tempEl.textContent = "Temperature:" + " " + data.main.temp; 
       humidEl.textContent = "Humidity:" + " "+ data.main.humidity; 
       cityNameEl.textContent = city + " " + '(' + date
       + ')';
-
+      searchCityEl.appendChild(divEl);
       divEl.appendChild(cityNameEl);
-      document.getElementById('search-results').appendChild(divEl);
-      divEl.appendChild(cityNameEl);
+      //document.getElementById('search-results').appendChild(divEl);
+      divEl.appendChild(desEl);
       divEl.appendChild(tempEl);
       divEl.appendChild(windEl);
       divEl.appendChild(humidEl);
       divEl.appendChild(uvIndexEl);
       
-    localStorage.setItem("list-item", city);
-    var cityList = localStorage.getItem("list-item");
+    
      //cityContainerEl.textContent = cityList;
     });
-}); 
+
 /*fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
         .then(function(response){
         response.json().then(function(forecast){
@@ -150,7 +151,6 @@ inputEl.addEventListener("click", function(event){
       t4El.textContent = "Temp: " + forecast.list[0].main.temp;
       h4El.textContent = "Humidity: " + forecast.list[0].main.humidity;
       w4El.textContent = "Wind: " + forecast.list[0].wind.speed;
-
       h2El.textContent = "FORECAST FOR 5 DAYS";
       h2El.setAttribute("style", "padding:20px");
       
@@ -177,7 +177,6 @@ inputEl.addEventListener("click", function(event){
       document.getElementById('3day').appendChild(d2El);
       document.getElementById('4day').appendChild(d3El);
       document.getElementById('5day').appendChild(d4El);
-
 */
     var city = cityInputEl.value.trim();
     var key = '9744d0c7ce6c0249a3e788815a2c2ef4';
@@ -203,7 +202,7 @@ $.ajax({
     weatherForecast += "<b>Day " + date + "</b>:" + "</br>"// Day
     weatherForecast += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>" + "</br>"// Icon
     weatherForecast += "<span> | " + val.weather[0].description + "</span>" + "</br>"; // Description
-    weatherForecast += " Temp: " + val.main.temp + "</br>" // Temperature
+    weatherForecast += " Temp: " + val.main.temp + "&degC" + "</br>" // Temperature
     weatherForecast += "Humidity: " + val.main.humidity + "</br>" // Humidity
     weatherForecast += "Wind: " + val.wind.speed;
     weatherForecast += "</p>" // Closing paragraph tag
@@ -211,12 +210,65 @@ $.ajax({
     $("#showWeatherForecast").html(weatherForecast);
   }
 });
-           
+function saveCities(){
+  var city = cityInputEl.value;
+  if (searchedCities.indexOf(city)===-1){
+  searchedCities.push(city);
+  localStorage.setItem("cities", JSON.stringify(searchedCities));
+  }
+  loadCities();
+  return searchedCities.value;
+}
+
+function loadCities(){
+  searchCityEl.innerHTML = "";
+  var loadCities =   JSON.parse(localStorage.getItem("cities")) || [];
+  // if(loadCities.length !==0){
+  for (let i = 0; i < loadCities.length; i++) {
+      
+      var city = loadCities[i];
+      
+  
+  var searchedHistoryEl = document.createElement("button");
+  // searchedHistoryEl.classList.add("col-12");
+  // searchedHistoryEl.setAttribute("type", "text");
+  // searchedHistoryEl.setAttribute("readonly", true);
+  searchedHistoryEl.setAttribute("value", loadCities[i]);
+  searchedHistoryEl.textContent = city;
+  searchedHistoryEl.addEventListener("click", function(event){
+      searchCityEl.innerHTML = "";
+      weather(loadCities[i]);
+      event.preventDefault();
+      cityContainerEl.textContent = [];
+      
+      
+  });
+ cityContainerEl.append(searchedHistoryEl);
+ liEl.append(searchedHistoryEl);
+
+}
+
+};
+
+function showHistory(){
+  var loadCities =   JSON.parse(localStorage.getItem("cities")) || [];
+  for (let i = 0; i < loadCities.length; i++){
+      loadCities.innerHTML= "li";
+      loadCities.setAttribute("value", loadCities[i])
+      cityContainerEl.append(loadcities[i]);
+  }
+  
+  cityContainerEl.textContent = loadCities;
+}
+// showHistory();
+
+loadCities();
+
+inputButtonEl.addEventListener("click", function(){
+  var city = cityInputEl.value;
+  weather(city);
 });
-
-
-
-
-
-
+          });
+        });
 //cityFormEl.addEventListener("submit", formSubmitHandler);
+
