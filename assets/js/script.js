@@ -1,10 +1,11 @@
 var cityInputEl = document.querySelector("#cityname");
 var cityFormEl = document.querySelector("#city-form");
 var cityContainerEl = document.querySelector("#city-container");
-var inputButtonEl = document.querySelector("#input");
-var resultsContainer = document.querySelector("#results-container");
-searchCityEl = document.getElementById("searchcity");
-var cityList = "cities";
+var searchButtonEl = document.querySelector("#search");
+var resultsContainerEl = document.querySelector("#results-container");
+var searchCityEl = document.getElementById("searchcity");
+var datesContainerEl = document.querySelector("#forecast");
+var searchedCities = [];
 //var city = cityInputEl.value.trim();
 // Add timezone plugins to day.js
 /*dayjs.extend(window.dayjs_plugin_utc);
@@ -42,7 +43,6 @@ $("#date").text(date);
         alert("please enter a city");
     }
 };
-
 var getForecast = function(){
     fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
     .then(function(response){
@@ -52,7 +52,7 @@ var getForecast = function(){
 });
 };
 */
-inputButtonEl.addEventListener("click", function(event){
+searchButtonEl.addEventListener("click", function(event){
       event.preventDefault();
     fetch("https://api.openweathermap.org/data/2.5/weather?q="+ cityInputEl.value + "&icon&units=imperial&uvi?&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
       .then(function(response){
@@ -63,12 +63,11 @@ inputButtonEl.addEventListener("click", function(event){
      
       var date = moment().format("LLLL");
       //var day1 = moment().add(1, 'days').calendar();    
-      //var city = cityInputEl.value.trim();
-      var liEl = document.createElement("a")
+      var city = cityInputEl.value.trim();
+      var liEl = document.createElement("li")
       liEl.classList = 'list-item flex-row justify-space-between align-center ';
-      liEl.textContent = city;
       cityContainerEl.appendChild(liEl);
-
+      liEl.textContent = city;
       var divEl = document.createElement("div");
       var cityNameEl = document.createElement('h2');
       var desEl = document.createElement('p');
@@ -92,96 +91,34 @@ inputButtonEl.addEventListener("click", function(event){
       divEl.appendChild(windEl);
       divEl.appendChild(humidEl);
       divEl.appendChild(uvIndexEl);
-      
     
-     //cityContainerEl.textContent = cityList;
-    });
-
-/*fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4")
-        .then(function(response){
-        response.json().then(function(forecast){
-           console.log(forecast);
-    
-     //const strDate = d.toLocaleString();
-     var timestamp = Date.now(), // returns milliseconds since epoch time
-      normalisedTime = new Date(timestamp);
-    
-      var h2El = document.createElement('h2');
-      var dEl = document.createElement('h3');
-      var iconEl = document.createElement("p");
-      var tEl = document.createElement('p');
-      var hEl = document.createElement('p');
-      var wEl = document.createElement('p')
-      var d1El = document.createElement('h3');
-      var icon1El = document.createElement("p");
-      var t1El = document.createElement('p');
-      var h1El = document.createElement('p');
-      var w1El = document.createElement('p')
-      var d2El = document.createElement('h3');
-      var t2El = document.createElement('p');
-      var hu2El = document.createElement('p');
-      var w2El = document.createElement('p')
-      var d3El = document.createElement('h3');
-      var t3El = document.createElement('p');
-      var h3El = document.createElement('p');
-      var w3El = document.createElement('p')
-      var d4El = document.createElement('h3');
-      var t4El = document.createElement('p');
-      var h4El = document.createElement('p');
-      var w4El = document.createElement('p')
-      dEl.textContent = forecast.dt=moment().add(1, 'days');
-      iconEl.textContent = forecast.list[0].weather[0].description;
-      tEl.textContent = "Temp: " + forecast.list[0].main.temp;
-      hEl.textContent = "Humidity: " + forecast.list[0].main.humidity;
-      wEl.textContent = "Wind: " + forecast.list[0].wind.speed;
-      d1El.textContent =forecast.dt=moment().add(2, "days");
-      icon1El.textContent = forecast.list[0].weather[0].description;
-      t1El.textContent = "Temp: " + forecast.list[0].main.temp;
-      h1El.textContent = "Humidity: " + forecast.list[0].main.humidity;
-      w1El.textContent = "Wind: " + forecast.list[0].wind.speed;
-      d2El.textContent = forecast.dt=moment().add(3,"days");
-      t2El.textContent = "Temp: " + forecast.list[0].main.temp;
-      hu2El.textContent = "Humidity: " + forecast.list[0].main.humidity;
-      w2El.textContent = "Wind: " + forecast.list[0].wind.speed;
+      var h3DivEl = document.createElement('div');
+      var dEl = document.createElement('h2');
+      var d1El = document.createElement('h2');
+      var d2El = document.createElement('h2');
+      var d3El = document.createElement('h2');
+      var d4El = document.createElement('h2');
+      var d5El = document.createElement('h2');
+      dEl.textContent = moment().add(1, 'days');
+      d1El.textContent = moment().add(2, "days");
+      d2El.textContent = moment().add(3,"days");
       d3El.textContent = moment().add(4, "days");
-      t3El.textContent = "Temp: " + forecast.list[0].main.temp;
-      h3El.textContent = "Humidity: " + forecast.list[0].main.humidity;
-      w3El.textContent = "Wind: " + forecast.list[0].wind.speed;
       d4El.textContent = moment().add(5,"days");
-      t4El.textContent = "Temp: " + forecast.list[0].main.temp;
-      h4El.textContent = "Humidity: " + forecast.list[0].main.humidity;
-      w4El.textContent = "Wind: " + forecast.list[0].wind.speed;
-      h2El.textContent = "FORECAST FOR 5 DAYS";
-      h2El.setAttribute("style", "padding:20px");
+      d5El.textContent = moment().add(6,"days");
+      h3DivEl.classList = "flex-row justify-space-between";
+      datesContainerEl.appendChild(h3DivEl);
+      h3DivEl.appendChild(dEl);
+      h3DivEl.appendChild(d1El);
+      h3DivEl.appendChild(d2El);
+      h3DivEl.appendChild(d3El);
+      h3DivEl.appendChild(d4El);
+      h3DivEl.appendChild(d5El);
+       });
       
-      document.getElementById('forecast').appendChild(h2El);
-      document.getElementById('1day').appendChild(dEl);
-      dEl.appendChild(iconEl);
-      d1El.appendChild(icon1El);
-      dEl.appendChild(tEl);
-      dEl.appendChild(hEl);
-      dEl.appendChild(wEl);
-      d1El.appendChild(t1El);
-      d1El.appendChild(h1El);
-      d1El.appendChild(w1El);
-      d2El.appendChild(t2El);
-      d2El.appendChild(hu2El);
-      d2El.appendChild(w2El);
-      d3El.appendChild(t3El);
-      d3El.appendChild(h3El);
-      d3El.appendChild(w3El);
-      d4El.appendChild(t4El);
-      d4El.appendChild(h4El);
-      d4El.appendChild(w4El);
-      document.getElementById('2day').appendChild(d1El);
-      document.getElementById('3day').appendChild(d2El);
-      document.getElementById('4day').appendChild(d3El);
-      document.getElementById('5day').appendChild(d4El);
-*/
     var city = cityInputEl.value.trim();
     var key = '9744d0c7ce6c0249a3e788815a2c2ef4';
-    var url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
-   
+    var url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value  + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
+    var date = moment().format("llll");
 
 $.ajax({
   url: url, //API Call
@@ -210,65 +147,77 @@ $.ajax({
     $("#showWeatherForecast").html(weatherForecast);
   }
 });
+
 function saveCities(){
-  var city = cityInputEl.value;
+  var city = cityInputEl.value.trim();
   if (searchedCities.indexOf(city)===-1){
   searchedCities.push(city);
   localStorage.setItem("cities", JSON.stringify(searchedCities));
+  
   }
   loadCities();
   return searchedCities.value;
 }
+saveCities();
 
 function loadCities(){
-  searchCityEl.innerHTML = "";
+  cityContainerEl.innerHTML = city;
   var loadCities =   JSON.parse(localStorage.getItem("cities")) || [];
   // if(loadCities.length !==0){
   for (let i = 0; i < loadCities.length; i++) {
       
-      var city = loadCities[i];
+      var cityname = loadCities[i];
       
-  
+    var searchCityEl = cityname[i];
+    var datesContainerEl = cityname[i];
+  //var liEl = document.createElement("li")
   var searchedHistoryEl = document.createElement("button");
   // searchedHistoryEl.classList.add("col-12");
   // searchedHistoryEl.setAttribute("type", "text");
   // searchedHistoryEl.setAttribute("readonly", true);
-  searchedHistoryEl.setAttribute("value", loadCities[i]);
-  searchedHistoryEl.textContent = city;
+  searchedHistoryEl.setAttribute("value", loadCities[i]
+  );
+  //liEl.textContent = loadCities[i];
+  searchedHistoryEl.textContent = cityname;
   searchedHistoryEl.addEventListener("click", function(event){
-      searchCityEl.innerHTML = "";
-      weather(loadCities[i]);
+    searchCityEl.innerHTML = searchCityEl[i];
+    datesContainerEl.innerHTML = datesContainerEl[i];
+    $(loadCities[i]);
       event.preventDefault();
-      cityContainerEl.textContent = [];
-      
+      //cityContainerEl.textContent = loadCities[i];
+      //liEl.textContent = searchedHistoryEl;
       
   });
- cityContainerEl.append(searchedHistoryEl);
- liEl.append(searchedHistoryEl);
+ 
+  cityContainerEl.append(searchedHistoryEl);
+ //liEl.append(searchedHistoryEl);
+ //cityContainerEl.appendChild(liEl);
 
 }
 
 };
 
 function showHistory(){
-  var loadCities =   JSON.parse(localStorage.getItem("cities")) || [];
+  var loadCities =   JSON.parse(localStorage.getItem("cities", city)) || [];
   for (let i = 0; i < loadCities.length; i++){
-      loadCities.innerHTML= "li";
+      loadCities.innerHTML= "a";
       loadCities.setAttribute("value", loadCities[i])
-      cityContainerEl.append(loadcities[i]);
+      cityContainerEl.append(loadCities[i]);
+      //liEl.append(loadCities[i]);
   }
-  
   cityContainerEl.textContent = loadCities;
+  liEl.textContent = cityname;
 }
 // showHistory();
 
 loadCities();
 
-inputButtonEl.addEventListener("click", function(){
+searchButtonEl.addEventListener("click", function(){
   var city = cityInputEl.value;
-  weather(city);
-});
+  searchCityEl.textContent = "";
+  datesContainerEl.textContent = "";
+   $(city);
           });
         });
+      }); 
 //cityFormEl.addEventListener("submit", formSubmitHandler);
-

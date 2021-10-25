@@ -21,7 +21,7 @@
             <h3 class="card-header text-uppercase">Search for a City</h3>
             <form id="city-form" class="card-body">
               <input type="text" name="cityname" id="cityname" autofocus="true" class="form-input" placeholder="San Francisco">
-              <button type="submit" class="btn" id="input">Search</button>
+              <button type="submit" class="btn" id="search">Search</button>
             </form>
             </div>
             <div class="list-group" id="city-container">
@@ -31,11 +31,12 @@
         <div class="search-results" id="search-results">
          <div id="searchcity"></div>
         </div>
-           <div id="forecast"></div>
-           <div id="showWeatherForecast" class="flex-row justify-space-between" ></div>
+        <div id="forecast" class="flex-row justity-space-between"></div>
+           <div id="showWeatherForecast" class="flex-row justify-space-between" >
+           </div>
         </div>
    </main>
-   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
