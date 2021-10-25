@@ -5,6 +5,7 @@ var searchButtonEl = document.querySelector("#search");
 var resultsContainerEl = document.querySelector("#results-container");
 var searchCityEl = document.getElementById("searchcity");
 var datesContainerEl = document.querySelector("#forecast");
+var forecastEl = document.querySelector("#showWeatherForecast");
 var searchedCities = [];
 //var city = cityInputEl.value.trim();
 // Add timezone plugins to day.js
@@ -55,11 +56,10 @@ var getForecast = function(){
 searchButtonEl.addEventListener("click", function(event){
       event.preventDefault();
     fetch("https://api.openweathermap.org/data/2.5/weather?q="+ cityInputEl.value + "&icon&units=imperial&uvi?&APPID=9744d0c7ce6c0249a3e788815a2c2ef4")
-      .then(function(response){
-     
+
+    .then(function(response){
     response.json().then(function(data){
-   
-     console.log(data);
+    console.log(data);
      
       var date = moment().format("LLLL");
       //var day1 = moment().add(1, 'days').calendar();    
@@ -113,8 +113,11 @@ searchButtonEl.addEventListener("click", function(event){
       h3DivEl.appendChild(d3El);
       h3DivEl.appendChild(d4El);
       h3DivEl.appendChild(d5El);
-       });
-      
+    
+
+    saveCities();
+  });
+  
     var city = cityInputEl.value.trim();
     var key = '9744d0c7ce6c0249a3e788815a2c2ef4';
     var url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value  + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
@@ -146,6 +149,7 @@ $.ajax({
     });
     $("#showWeatherForecast").html(weatherForecast);
   }
+ 
 });
 
 function saveCities(){
@@ -158,18 +162,18 @@ function saveCities(){
   loadCities();
   return searchedCities.value;
 }
-saveCities();
+
 
 function loadCities(){
-  cityContainerEl.innerHTML = city;
+  cityContainerEl.innerHTML = "";
   var loadCities =   JSON.parse(localStorage.getItem("cities")) || [];
   // if(loadCities.length !==0){
   for (let i = 0; i < loadCities.length; i++) {
       
       var cityname = loadCities[i];
       
-    var searchCityEl = cityname[i];
-    var datesContainerEl = cityname[i];
+   // var searchCityEl = cityname[i];
+   // var datesContainerEl = cityname[i];
   //var liEl = document.createElement("li")
   var searchedHistoryEl = document.createElement("button");
   // searchedHistoryEl.classList.add("col-12");
@@ -179,9 +183,18 @@ function loadCities(){
   );
   //liEl.textContent = loadCities[i];
   searchedHistoryEl.textContent = cityname;
+  searchedHistoryEl.classList = "link";
+
   searchedHistoryEl.addEventListener("click", function(event){
-    searchCityEl.innerHTML = searchCityEl[i];
-    datesContainerEl.innerHTML = datesContainerEl[i];
+    if(searchedHistoryEl){
+    searchCityEl.innerHTML = searchCityEl.textContent;
+    datesContainerEl.innerHTML = datesContainerEl.textContent;
+    forecastEl.textContent = forecastEl.textContent;
+   
+    for (var i=0; i < searchedCities.length; i++){
+      cityContainerEl.textContent = cityname;
+    }
+    }
     $(loadCities[i]);
       event.preventDefault();
       //cityContainerEl.textContent = loadCities[i];
@@ -205,8 +218,8 @@ function showHistory(){
       cityContainerEl.append(loadCities[i]);
       //liEl.append(loadCities[i]);
   }
-  cityContainerEl.textContent = loadCities;
-  liEl.textContent = cityname;
+  cityContainerEl.textContent = loadCities[i];
+  liEl.append(loadCities[i]);
 }
 // showHistory();
 
@@ -216,8 +229,9 @@ searchButtonEl.addEventListener("click", function(){
   var city = cityInputEl.value;
   searchCityEl.textContent = "";
   datesContainerEl.textContent = "";
+  
    $(city);
           });
-        });
-      }); 
+      });
+    });
 //cityFormEl.addEventListener("submit", formSubmitHandler);

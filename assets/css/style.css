@@ -131,7 +131,14 @@
   .list-item:hover {
     background-color: var(--dark);
   }
-  
+  .link{
+    width: 100%;
+    color: #020202;
+    padding: 14px;
+    font-size: 22px;
+    background-color:#f0ecec;
+    border-radius: 10px;
+  }
   /* CARDS */
   .card {
     margin: 0 0 20px 0;
