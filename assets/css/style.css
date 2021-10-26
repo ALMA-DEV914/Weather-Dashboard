@@ -117,7 +117,11 @@
     color: white;
     font-size: 22px;
   }
-  
+  .list-date{
+    display: flex;
+    column-count: 6;
+    
+  }
   .list-item {
     margin-bottom: 10px;
     padding: 2.5%;

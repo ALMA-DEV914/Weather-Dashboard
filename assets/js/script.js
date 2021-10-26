@@ -105,7 +105,8 @@ searchButtonEl.addEventListener("click", function(event){
       d3El.textContent = moment().add(4, "days");
       d4El.textContent = moment().add(5,"days");
       d5El.textContent = moment().add(6,"days");
-      h3DivEl.classList = "flex-row justify-space-between";
+      h3DivEl.classList = "list-date";
+
       datesContainerEl.appendChild(h3DivEl);
       h3DivEl.appendChild(dEl);
       h3DivEl.appendChild(d1El);
