@@ -4,7 +4,7 @@ var cityContainerEl = document.querySelector("#city-container");
 var searchButtonEl = document.querySelector("#search");
 var resultsContainerEl = document.querySelector("#results-container");
 var searchCityEl = document.getElementById("searchcity");
-var datesContainerEl = document.querySelector("#forecast");
+
 var forecastEl = document.querySelector("#showWeatherForecast");
 var searchedCities = [];
 //var city = cityInputEl.value.trim();
@@ -64,10 +64,10 @@ searchButtonEl.addEventListener("click", function(event){
       var date = moment().format("ddd, MMMM Do YYYY");
       //var day1 = moment().add(1, 'days').calendar();    
       var city = cityInputEl.value.trim();
-      var liEl = document.createElement("li")
-      liEl.classList = 'list-item flex-row justify-space-between align-center ';
-      cityContainerEl.appendChild(liEl);
-      liEl.textContent = city;
+      //var liEl = document.createElement("li")
+     // liEl.classList = 'list-item flex-row justify-space-between align-center ';
+      //cityContainerEl.appendChild(liEl);
+      //liEl.textContent = city;
 
       var divEl = document.createElement("div");
       var cityNameEl = document.createElement('h2');
@@ -76,7 +76,7 @@ searchButtonEl.addEventListener("click", function(event){
       var humidEl = document.createElement('p');
       var windEl = document.createElement('p');
       var uvIndexEl = document.createElement('p');
-
+    /*
       var h3DivEl = document.createElement('div');
       var dEl = document.createElement('h4');
       var d1El = document.createElement('h4');
@@ -92,7 +92,7 @@ searchButtonEl.addEventListener("click", function(event){
       d4El.textContent = moment().add(5,"days").format("ddd, MMM Do YY");
       d5El.textContent = moment().add(6,"days").format("ddd, MMM Do YY");
       h3DivEl.className = "list-date";
-
+*/
       uvIndexEl.textContent = document.createElement('p');
       desEl.textContent = "Description: " + data.weather[0].description;
       uvIndexEl.textContent = "Uv Index: " + "0";
@@ -110,22 +110,23 @@ searchButtonEl.addEventListener("click", function(event){
       divEl.appendChild(humidEl);
       divEl.appendChild(uvIndexEl);
       
-      datesContainerEl.appendChild(h3DivEl);
+     /* datesContainerEl.appendChild(h3DivEl);
       h3DivEl.appendChild(dEl);
       h3DivEl.appendChild(d1El);
       h3DivEl.appendChild(d2El);
       h3DivEl.appendChild(d3El);
       h3DivEl.appendChild(d4El);
-      h3DivEl.appendChild(d5El);
-    
+      //h3DivEl.appendChild(d5El);
+    */
 
     saveCities();
+    
   });
-  
+});
     var city = cityInputEl.value.trim();
     var key = '9744d0c7ce6c0249a3e788815a2c2ef4';
-    var url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value  + "&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
-    var date = moment().format("llll");
+    var url = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl.value  + "&date&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
+    
 
 $.ajax({
   url: url, //API Call
@@ -135,15 +136,21 @@ $.ajax({
     q: city,
     appid: key,
     units: "metric",
-    cnt: "6"
+    cnt: "5"
   },
   success: function(data) {
     console.log('Received data:', data) // For testing
     var weatherForecast = "";
     weatherForecast += "<h2>" + 'FORECAST FOR 5 DAYS' + "( " + city +  " )" + "</h2>"; // City (displays once)
+    weatherForecast += "<p> " + moment().add(1, "days").format("ddd, MMM Do YY") + "</p>";
+    weatherForecast += "<p>" 
+      + moment().add(2, "days").format("ddd, MMM Do YY") + "</p>";
+    weatherForecast += "<p>" + moment().add(3, "days").format("ddd, MMM Do YY") + "</p>";
+    weatherForecast += "<p>" + moment().add(4, "days").format("ddd, MMM Do YY") + "</p>";
+    weatherForecast += "<p>" + moment().add(5, "days").format("ddd, MMM Do YY") + "</p>";
     $.each(data.list, function(date, val) {
     weatherForecast += "<p>" // Opening paragraph tag
-    weatherForecast += "<b>Day " + date + "</b>:" + "</br>"// Day
+    weatherForecast +=  "<b>Day " + date + "</b>:" + "</br>"// Day
     weatherForecast += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>" + "</br>"// Icon
     weatherForecast += "<span> | " + val.weather[0].description + "</span>" + "</br>"; // Description
     weatherForecast += " Temp: " + val.main.temp + "&degC" + "</br>" // Temperature
@@ -155,7 +162,7 @@ $.ajax({
   }
  
 });
-
+    });
 function saveCities(){
   var city = cityInputEl.value.trim();
   resultsContainerEl = searchedCities;
@@ -166,9 +173,8 @@ function saveCities(){
   }
   loadCities();
   return searchedCities.value;
+
 }
-
-
 function loadCities(){
   cityContainerEl.innerHTML = "";
   var loadCities =   JSON.parse(localStorage.getItem("cities")) || [];
@@ -192,19 +198,19 @@ function loadCities(){
 
   searchedHistoryEl.addEventListener("click", function(event){
     if(searchedHistoryEl){
-    searchCityEl.innerHTML = searchCityEl.textContent;
-    datesContainerEl.innerHTML = datesContainerEl.textContent;
-    forecastEl.textContent = forecastEl.textContent;
-   resultsContainerEl.textContent = cityname;
+      searchCityEl.innerHTML = this.textContent;
+     forecastEl.innerHTML = this.textContent;
+     resultsContainerEl = searchCityEl.textContent;
     for (var i=0; i < searchedCities.length; i++){
       cityContainerEl.textContent = cityname;
-    }
-    }
+      
+    } 
+  }
     $(loadCities[i]);
       event.preventDefault();
       //cityContainerEl.textContent = loadCities[i];
       //liEl.textContent = searchedHistoryEl;
-      
+
   });
  
   cityContainerEl.append(searchedHistoryEl);
@@ -212,7 +218,7 @@ function loadCities(){
  //cityContainerEl.appendChild(liEl);
 
 }
-
+  
 };
 
 function showHistory(){
@@ -223,7 +229,7 @@ function showHistory(){
       cityContainerEl.append(loadCities[i]);
       //liEl.append(loadCities[i]);
   }
-  cityContainerEl.textContent = loadCities[i];
+  cityContainerEl.textContent = loadCities;
   //liEl.append(loadCities[i]);
 }
 // showHistory();
@@ -233,10 +239,10 @@ loadCities();
 searchButtonEl.addEventListener("click", function(){
   var city = cityInputEl.value;
   searchCityEl.textContent = "";
-  datesContainerEl.textContent = "";
-  
-   $(city);
+  forecastEl.textContent = "";
+  cityContainerEl.textContent = cityname;
+  $(city);
           });
-      });
-    });
+    
+    
 //cityFormEl.addEventListener("submit", formSubmitHandler);
