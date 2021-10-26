@@ -141,13 +141,15 @@ $.ajax({
   success: function(data) {
     console.log('Received data:', data) // For testing
     var weatherForecast = "";
-    weatherForecast += "<h2>" + 'FORECAST FOR 5 DAYS' + "( " + city +  " )" + "</h2>"; // City (displays once)
-    weatherForecast += "<p> " + moment().add(1, "days").format("ddd, MMM Do YY") + "</p>";
-    weatherForecast += "<p>" 
-      + moment().add(2, "days").format("ddd, MMM Do YY") + "</p>";
-    weatherForecast += "<p>" + moment().add(3, "days").format("ddd, MMM Do YY") + "</p>";
-    weatherForecast += "<p>" + moment().add(4, "days").format("ddd, MMM Do YY") + "</p>";
-    weatherForecast += "<p>" + moment().add(5, "days").format("ddd, MMM Do YY") + "</p>";
+    weatherForecast += "<h2>" + 'FORECAST FOR 5 DAYS' + " ( " + city +  " )" + "</h2>"; // City (displays once)
+    
+    weatherForecast += "<h4> " + moment().add(1, "days").format("ddd, MMM Do YY") + "</h4>";
+    weatherForecast += "<h4>" 
+      + moment().add(2, "days").format("ddd, MMM Do YY") + "</h4>";
+    weatherForecast += "<h4>" + moment().add(3, "days").format("ddd, MMM Do YY") + "</h4>";
+    weatherForecast += "<h4>" + moment().add(4, "days").format("ddd, MMM Do YY") + "</h4>";
+    weatherForecast += "<h4>" + moment().add(5, "days").format("ddd, MMM Do YY") + "</h4>";
+   
     $.each(data.list, function(date, val) {
     weatherForecast += "<p>" // Opening paragraph tag
     weatherForecast +=  "<b>Day " + date + "</b>:" + "</br>"// Day
@@ -157,6 +159,7 @@ $.ajax({
     weatherForecast += "Humidity: " + val.main.humidity + "</br>" // Humidity
     weatherForecast += "Wind: " + val.wind.speed;
     weatherForecast += "</p>" // Closing paragraph tag
+    
     });
     $("#showWeatherForecast").html(weatherForecast);
   }
@@ -169,11 +172,11 @@ function saveCities(){
   if (searchedCities.indexOf(city)===-1){
   searchedCities.push(city);
   localStorage.setItem("cities", JSON.stringify(searchedCities));
-  
+  console.log(searchedCities);
   }
   loadCities();
   return searchedCities.value;
-
+   
 }
 function loadCities(){
   cityContainerEl.innerHTML = "";
@@ -190,18 +193,19 @@ function loadCities(){
   // searchedHistoryEl.classList.add("col-12");
   // searchedHistoryEl.setAttribute("type", "text");
   // searchedHistoryEl.setAttribute("readonly", true);
-  searchedHistoryEl.setAttribute("value", loadCities[i]
-  );
+  searchedHistoryEl.setAttribute("value", loadCities[i]);
+  
   //liEl.textContent = loadCities[i];
   searchedHistoryEl.textContent = cityname;
   searchedHistoryEl.className = "link";
 
   searchedHistoryEl.addEventListener("click", function(event){
-    if(searchedHistoryEl){
-      searchCityEl.innerHTML = this.textContent;
-     forecastEl.innerHTML = this.textContent;
-     resultsContainerEl = searchCityEl.textContent;
-    for (var i=0; i < searchedCities.length; i++){
+   if(searchedHistoryEl){
+    
+     searchCityEl.innerHTML = this.textContent
+    forecastEl.innerHTML = this.textContent;
+     resultsContainerEl = this.textContent
+  for (var i=0; i < searchedCities.length; i++){
       cityContainerEl.textContent = cityname;
       
     } 
@@ -229,7 +233,7 @@ function showHistory(){
       cityContainerEl.append(loadCities[i]);
       //liEl.append(loadCities[i]);
   }
-  cityContainerEl.textContent = loadCities;
+    cityContainerEl.textContent = loadCities;
   //liEl.append(loadCities[i]);
 }
 // showHistory();
@@ -240,7 +244,7 @@ searchButtonEl.addEventListener("click", function(){
   var city = cityInputEl.value;
   searchCityEl.textContent = "";
   forecastEl.textContent = "";
-  cityContainerEl.textContent = cityname;
+ // cityContainerEl.textContent = cityname;
   $(city);
           });
     
