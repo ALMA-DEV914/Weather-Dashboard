@@ -61,13 +61,14 @@ searchButtonEl.addEventListener("click", function(event){
     response.json().then(function(data){
     console.log(data);
      
-      var date = moment().format("LLLL");
+      var date = moment().format("ddd, MMMM Do YYYY");
       //var day1 = moment().add(1, 'days').calendar();    
       var city = cityInputEl.value.trim();
       var liEl = document.createElement("li")
       liEl.classList = 'list-item flex-row justify-space-between align-center ';
       cityContainerEl.appendChild(liEl);
       liEl.textContent = city;
+
       var divEl = document.createElement("div");
       var cityNameEl = document.createElement('h2');
       var desEl = document.createElement('p');
@@ -75,6 +76,23 @@ searchButtonEl.addEventListener("click", function(event){
       var humidEl = document.createElement('p');
       var windEl = document.createElement('p');
       var uvIndexEl = document.createElement('p');
+
+      var h3DivEl = document.createElement('div');
+      var dEl = document.createElement('h4');
+      var d1El = document.createElement('h4');
+      var d2El = document.createElement('h4');
+      var d3El = document.createElement('h4');
+      var d4El = document.createElement('h4');
+      var d5El = document.createElement('h4');
+
+      dEl.textContent = moment().add(1, 'days').format("ddd, MMM Do YY");
+      d1El.textContent = moment().add(2, "days").format("ddd, MMM Do YY");
+      d2El.textContent = moment().add(3,"days").format("ddd, MMM Do YY");
+      d3El.textContent = moment().add(4, "days").format("ddd, MMM Do YY");
+      d4El.textContent = moment().add(5,"days").format("ddd, MMM Do YY");
+      d5El.textContent = moment().add(6,"days").format("ddd, MMM Do YY");
+      h3DivEl.className = "list-date";
+
       uvIndexEl.textContent = document.createElement('p');
       desEl.textContent = "Description: " + data.weather[0].description;
       uvIndexEl.textContent = "Uv Index: " + "0";
@@ -91,22 +109,7 @@ searchButtonEl.addEventListener("click", function(event){
       divEl.appendChild(windEl);
       divEl.appendChild(humidEl);
       divEl.appendChild(uvIndexEl);
-    
-      var h3DivEl = document.createElement('div');
-      var dEl = document.createElement('h2');
-      var d1El = document.createElement('h2');
-      var d2El = document.createElement('h2');
-      var d3El = document.createElement('h2');
-      var d4El = document.createElement('h2');
-      var d5El = document.createElement('h2');
-      dEl.textContent = moment().add(1, 'days');
-      d1El.textContent = moment().add(2, "days");
-      d2El.textContent = moment().add(3,"days");
-      d3El.textContent = moment().add(4, "days");
-      d4El.textContent = moment().add(5,"days");
-      d5El.textContent = moment().add(6,"days");
-      h3DivEl.classList = "list-date";
-
+      
       datesContainerEl.appendChild(h3DivEl);
       h3DivEl.appendChild(dEl);
       h3DivEl.appendChild(d1El);
@@ -155,6 +158,7 @@ $.ajax({
 
 function saveCities(){
   var city = cityInputEl.value.trim();
+  resultsContainerEl = searchedCities;
   if (searchedCities.indexOf(city)===-1){
   searchedCities.push(city);
   localStorage.setItem("cities", JSON.stringify(searchedCities));
@@ -184,14 +188,14 @@ function loadCities(){
   );
   //liEl.textContent = loadCities[i];
   searchedHistoryEl.textContent = cityname;
-  searchedHistoryEl.classList = "link";
+  searchedHistoryEl.className = "link";
 
   searchedHistoryEl.addEventListener("click", function(event){
     if(searchedHistoryEl){
     searchCityEl.innerHTML = searchCityEl.textContent;
     datesContainerEl.innerHTML = datesContainerEl.textContent;
     forecastEl.textContent = forecastEl.textContent;
-   
+   resultsContainerEl.textContent = cityname;
     for (var i=0; i < searchedCities.length; i++){
       cityContainerEl.textContent = cityname;
     }
@@ -212,7 +216,7 @@ function loadCities(){
 };
 
 function showHistory(){
-  var loadCities =   JSON.parse(localStorage.getItem("cities", city)) || [];
+  var loadCities =   JSON.parse(localStorage.getItem("cities")) || [];
   for (let i = 0; i < loadCities.length; i++){
       loadCities.innerHTML= "a";
       loadCities.setAttribute("value", loadCities[i])
@@ -220,7 +224,7 @@ function showHistory(){
       //liEl.append(loadCities[i]);
   }
   cityContainerEl.textContent = loadCities[i];
-  liEl.append(loadCities[i]);
+  //liEl.append(loadCities[i]);
 }
 // showHistory();
 

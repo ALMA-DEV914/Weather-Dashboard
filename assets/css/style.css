@@ -120,8 +120,9 @@
   .list-date{
     display: flex;
     column-count: 6;
-    
+    justify-content: space-between;
   }
+  
   .list-item {
     margin-bottom: 10px;
     padding: 2.5%;
