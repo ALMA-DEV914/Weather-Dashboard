@@ -124,11 +124,7 @@
     padding: 8px;
     font-size: 20px;
   }
-  /*.list-date{
-    display: flex;
-    column-count: 6;
-    justify-content: space-between;
-  }
+  
   
   .list-item {
     margin-bottom: 10px;
@@ -137,21 +133,14 @@
     background-color: var(--tertiary);
     color: var(--primary);
     text-decoration: none;
-    
+    width: 100%;
   }
   
   .list-item:hover {
     background-color: var(--dark);
   }
-  */
-  .link{
-    width: 100%;
-    color: #020202;
-    padding: 14px;
-    font-size: 22px;
-    background-color:#f0ecec;
-    border-radius: 10px;
-  }
+  
+
   /* CARDS */
   .card {
     margin: 0 0 20px 0;
