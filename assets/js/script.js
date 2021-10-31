@@ -59,7 +59,7 @@ function currentForecast(city) {
       
       searchCityEl.appendChild(divEl);
       divEl.appendChild(cityNameEl);
-      cityNameEl.appendChild(weatherIconEl);
+    divEl.appendChild(weatherIconEl);
       divEl.appendChild(desEl);
       divEl.appendChild(tempEl);
       divEl.appendChild(windEl);
