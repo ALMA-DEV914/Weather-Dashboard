@@ -38,10 +38,11 @@ function currentForecast(city) {
   ).then(function (response) {
     response.json().then(function (data) {
       console.log(data);
-
       var date = moment().format("ddd, MMMM Do YYYY");
       var divEl = document.createElement("div");
       var cityNameEl = document.createElement("h2");
+      var weatherIconEl = document.createElement("img");
+      weatherIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
       var desEl = document.createElement("p");
       var tempEl = document.createElement("p");
       var humidEl = document.createElement("p");
@@ -50,21 +51,26 @@ function currentForecast(city) {
 
       uvIndexEl.textContent = document.createElement("p");
       desEl.textContent = "Description: " + data.weather[0].description;
-      uvIndexEl.textContent = "Uv Index: " + "0";
+      uvIndexEl.textContent = "Uv Index: ";
       windEl.textContent = "Wind: " + data.wind.speed;
       tempEl.textContent = "Temperature:" + " " + data.main.temp;
       humidEl.textContent = "Humidity:" + " " + data.main.humidity;
-      cityNameEl.textContent = city + " " + "(" + date + ")";
+      cityNameEl.textContent += city + " " + "(" + date + ")" ;
+      
       searchCityEl.appendChild(divEl);
       divEl.appendChild(cityNameEl);
+      cityNameEl.appendChild(weatherIconEl);
       divEl.appendChild(desEl);
       divEl.appendChild(tempEl);
       divEl.appendChild(windEl);
       divEl.appendChild(humidEl);
       divEl.appendChild(uvIndexEl);
+     
     });
   });
-}
+} 
+
+
 
 function fiveForecast(city) {
   var key = "9744d0c7ce6c0249a3e788815a2c2ef4";
