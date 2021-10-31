@@ -14,4 +14,4 @@
  https://alma-dev914.github.io/Weather-Dashboard/
 
  #### Application Snapshot
- 
+ ![20211030_141339](https://user-images.githubusercontent.com/65073138/139574917-04beecf1-19b8-41b7-ba6d-11c6cd5de290.jpg)
