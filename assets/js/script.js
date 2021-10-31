@@ -3,9 +3,9 @@ var cityFormEl = document.querySelector("#city-form");
 var cityContainerEl = document.querySelector("#city-container");
 var searchButtonEl = document.querySelector("#search");
 var resultsContainerEl = document.querySelector("#results-container");
-var searchCityEl = document.getElementById("searchcity");
-
+var searchCityEl = document.querySelector("#searchcity");
 var forecastEl = document.querySelector("#showWeatherForecast");
+var uvindexEl = document.querySelector("#uvindex");
 var searchedCities = [];
 
 // 2 functions
@@ -33,11 +33,12 @@ searchButtonEl.addEventListener("click", function (event) {
 function currentForecast(city) {
   fetch(
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-      city +
+      city + 
       "&icon&units=imperial&uvi?&APPID=9744d0c7ce6c0249a3e788815a2c2ef4"
   ).then(function (response) {
     response.json().then(function (data) {
       console.log(data);
+
       var date = moment().format("ddd, MMMM Do YYYY");
       var divEl = document.createElement("div");
       var cityNameEl = document.createElement("h2");
@@ -47,29 +48,44 @@ function currentForecast(city) {
       var tempEl = document.createElement("p");
       var humidEl = document.createElement("p");
       var windEl = document.createElement("p");
-      var uvIndexEl = document.createElement("p");
+      var uvIndexEl =
 
-      uvIndexEl.textContent = document.createElement("p");
       desEl.textContent = "Description: " + data.weather[0].description;
-      uvIndexEl.textContent = "Uv Index: ";
       windEl.textContent = "Wind: " + data.wind.speed;
       tempEl.textContent = "Temperature:" + " " + data.main.temp;
       humidEl.textContent = "Humidity:" + " " + data.main.humidity;
-      cityNameEl.textContent += city + " " + "(" + date + ")" ;
+      cityNameEl.textContent = city + " " + "(" + date + ")" ;
       
       searchCityEl.appendChild(divEl);
       divEl.appendChild(cityNameEl);
-    divEl.appendChild(weatherIconEl);
+      divEl.appendChild(weatherIconEl);
       divEl.appendChild(desEl);
       divEl.appendChild(tempEl);
       divEl.appendChild(windEl);
       divEl.appendChild(humidEl);
-      divEl.appendChild(uvIndexEl);
-     
-    });
+  
+      var lat = data.coord.lat;
+      var lon = data.coord.lon;
+      var uvUrl = "https://api.openweathermap.org/data/2.5/onecall?&lat=" + lat +"&lon=" + lon + "&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
+                fetch(uvUrl).then(function(response){
+                    response.json().then(function(data){
+                         console.log(data);
+
+                        uvindexEl.textContent = "UV-index: " + data.current.uvi;
+                        if (data.current.uvi < 5){
+                            uvindexEl.setAttribute("style", "background:green");
+                        }
+                        else if(data.current.uvi >= 5 && data.current.uvi < 10){
+                            uvindexEl.setAttribute("style", "background: yellow");
+                        }
+                        else{
+                            uvindexEl.setAttribute("style", "background:red");
+                        }
+                    });
+                }); 
+         });
   });
 } 
-
 
 
 function fiveForecast(city) {
