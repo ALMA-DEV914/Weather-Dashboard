@@ -14,9 +14,11 @@
 * Cities should includes city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
 -: Get the data from an array of information that API sent back
 * When the UV index are viewed, there should be a color-coded code that indicates whether the conditions are favorable, moderate, or severe
+-: I fetch an api for uvi call and set if statement to generate the color information
 * When user view the future weather conditions for that city it should be presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
+-: I fetch an api that will response for the forecast in days ahead and get the needed data t0 display in the page
 * When user click on a city in the search history, then again they will be presented with current and future conditions for that city
-
+-: I created a functions tha twill save and load each search city and store it in local storage history
 
 
 ### Deployed Application

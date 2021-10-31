@@ -48,7 +48,7 @@ function currentForecast(city) {
       var tempEl = document.createElement("p");
       var humidEl = document.createElement("p");
       var windEl = document.createElement("p");
-      var uvIndexEl =
+      
 
       desEl.textContent = "Description: " + data.weather[0].description;
       windEl.textContent = "Wind: " + data.wind.speed;
@@ -66,8 +66,8 @@ function currentForecast(city) {
   
       var lat = data.coord.lat;
       var lon = data.coord.lon;
-      var uvUrl = "https://api.openweathermap.org/data/2.5/onecall?&lat=" + lat +"&lon=" + lon + "&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
-                fetch(uvUrl).then(function(response){
+      var uviUrl = "https://api.openweathermap.org/data/2.5/onecall?&lat=" + lat +"&lon=" + lon + "&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
+                fetch(uviUrl).then(function(response){
                     response.json().then(function(data){
                          console.log(data);
 
@@ -91,9 +91,7 @@ function currentForecast(city) {
 function fiveForecast(city) {
   var key = "9744d0c7ce6c0249a3e788815a2c2ef4";
   var url =
-    "https://api.openweathermap.org/data/2.5/forecast?q=" +
-    city +
-    "&date&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4";
+    `https://api.openweathermap.org/data/2.5/forecast?q=` + city + `&date=dt_txt&count=5&units=imperial&uvi?&appid=9744d0c7ce6c0249a3e788815a2c2ef4`;
 
   $.ajax({
     url: url, //API Call
