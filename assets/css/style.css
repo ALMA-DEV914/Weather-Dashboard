@@ -174,7 +174,12 @@
     border: 2px solid var(--light-dark);
     border-radius: var(--border-radius);
   }
-  
+  footer{
+    
+    background:var(--dark);
+    color: var(--primary);
+    padding: 10px;
+  }
   /* HEIGHT / WIDTH UTILS */
   .min-100-vh {
     min-height: 100vh;
