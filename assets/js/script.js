@@ -76,7 +76,7 @@ function currentForecast(city) {
                             uvindexEl.setAttribute("style", "background:green");
                         }
                         else if(data.current.uvi >= 5 && data.current.uvi < 10){
-                            uvindexEl.setAttribute("style", "color: black; background:yelloworange;");
+                            uvindexEl.setAttribute("style", "background:orange;");
                         }
                         else{
                             uvindexEl.setAttribute("style", "background:red");
