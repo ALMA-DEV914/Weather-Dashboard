@@ -203,9 +203,10 @@ p{
     padding: 3%;
   }
   footer{
-    background:var(--dark);
+    /*background:var(--dark);*/
     color: var(--primary);
     padding: 10px;
+    font-size: 22px;
   }
   /* HEIGHT / WIDTH UTILS */
   .min-100-vh {
