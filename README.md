@@ -26,3 +26,4 @@
 
  #### Application Snapshot
  <img width="1749" alt="Screen Shot 2021-11-25 at 3 09 11 PM" src="https://user-images.githubusercontent.com/65073138/143506700-b2248871-ff4e-4fed-ac91-2df4b08c8870.png">
+<img width="1787" alt="Screen Shot 2022-01-04 at 6 26 21 PM" src="https://user-images.githubusercontent.com/65073138/148151017-cd060eb3-3035-42b8-937c-66dfe4aa956e.png">
