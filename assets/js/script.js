@@ -102,6 +102,7 @@ function fiveForecast(city) {
       appid: key,
       units: "metric",
       cnt: "5",
+      dt: "dt_txt",
     },
     success: function (data) {
       console.log("Received data:", data); // For testing
@@ -109,7 +110,7 @@ function fiveForecast(city) {
       weatherForecast +=
         "<h2>" + "FORECAST FOR 5 DAYS" + " ( " + city + " )" + "</h2>"; // City (displays once)
 
-      weatherForecast +=
+     /* weatherForecast +=
         "<h4> " + moment().add(1, "days").format("ddd, MMM Do YY") + "</h4>";
       weatherForecast +=
         "<h4>" + moment().add(2, "days").format("ddd, MMM Do YY") + "</h4>";
@@ -118,11 +119,11 @@ function fiveForecast(city) {
       weatherForecast +=
         "<h4>" + moment().add(4, "days").format("ddd, MMM Do YY") + "</h4>";
       weatherForecast +=
-        "<h4>" + moment().add(5, "days").format("ddd, MMM Do YY") + "</h4>";
+        "<h4>" + moment().add(5, "days").format("ddd, MMM Do YY") + "</h4>"; */
 
       $.each(data.list, function (date, val) {
         weatherForecast += "<p>"; // Opening paragraph tag
-        weatherForecast += "<b>Day " + date + "</b>:" + "</br>"; // Day
+        weatherForecast += "<b>Day: " +  date  + "</b>" + "</br>"; // Day
         weatherForecast +=
           "<img src='https://openweathermap.org/img/w/" +
           val.weather[0].icon +
